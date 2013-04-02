@@ -132,13 +132,13 @@ class TestRedirects(object):
         url = mozwebqa.base_url + "/firefox/all-older.html"
         response = requests.get(url)
         Assert.contains("/firefox/new", response.url)
-    
+
     @pytest.mark.nondestructive
     def test_old_firstrun_redirect(self, mozwebqa):
         url = mozwebqa.base_url + "/en-US/projects/firefox/3.6.13/firstrun/"
         response = requests.get(url)
         Assert.not_equal(response.status_code, 404)
-    
+
     @pytest.mark.nondestructive
     def test_old_whatsnew_redirect(self, mozwebqa):
         url = mozwebqa.base_url + '/en-US/projects/firefox/3.6.13/whatsnew/'
@@ -157,4 +157,8 @@ class TestRedirects(object):
         response = requests.head(url)
         Assert.not_equal(response.status_code, 404)
 
-
+    @pytest.mark.nondestructive
+    def test_start_page_redirect(selfl, mozwebqa):
+        url = mozwebqa.base_url + '/products/firefox/start'
+        response = requests.head(url, **{'allow_redirects': True})
+        Assert.equal(response.status_code, 200)
