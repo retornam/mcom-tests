@@ -33,7 +33,7 @@ class TestLocalisedDownloadLinks:
             links = language.findAll('a')
             for link in links:
                 url = link['href']
-                response = requests.head(url, allow_redirects=True)
+                response = requests.head(url, allow_redirects=True, verify=False, timeout=60)
                 if language['id'] not in response.url:
                     bad_links.append("Lang '%s' not in response: %s \n"
                                      % (language['id'], response.url))
@@ -48,7 +48,7 @@ class TestLocalisedDownloadLinks:
             links = language.findAll('a')
             for link in links:
                 url = link['href']
-                response = requests.head(url, allow_redirects=False)
+                response = requests.head(url, allow_redirects=True, verify=False, timeout=60)
                 status = response.status_code
                 if not (300 < status <= 302):
                     bad_links.append("Lang '%s' %s link: status %s"
